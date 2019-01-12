@@ -6,7 +6,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('List'),
-        automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
@@ -15,7 +14,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                    context, "/login", (Route<dynamic> route) {
+                    context, "/", (Route<dynamic> route) {
                   return false;
                 }),
           ),

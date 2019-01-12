@@ -11,11 +11,46 @@ class FormState extends State {
   bool isLoading = false;
   bool _obscureText = true;
 
+  Container LoadingIndicator() {
+    return Container(
+        padding:
+        EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 12),
+        child: CircularProgressIndicator());
+  }
+
+  Container LoginButton() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+      width: 200,
+      child: RaisedButton(
+          onPressed: () async {
+            setState(() {
+              isLoading = true;
+            });
+            await  Future.delayed(
+                const Duration(seconds: 3), () {
+              setState(() {
+                isLoading = false;
+              });
+            });
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/home", (Route<dynamic> route) {
+              return false;
+            });
+          },
+          child: Text('Login'),
+          color: Colors.blue,
+          textColor: Colors.white,
+          shape:  RoundedRectangleBorder(
+              borderRadius:
+              BorderRadius.circular(30.0))),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Login'),
-          automaticallyImplyLeading: false,
+          title: Text('Login')
         ),
         body: SingleChildScrollView(
             child: Container(
@@ -52,36 +87,8 @@ class FormState extends State {
                           obscureText: _obscureText,
                         ),
                         isLoading
-                            ? Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 12),
-                                child: CircularProgressIndicator())
-                            : Container(
-                                padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                width: 200,
-                                child: RaisedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      await  Future.delayed(
-                                          const Duration(seconds: 3), () {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                      });
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, "/", (Route<dynamic> route) {
-                                        return false;
-                                      });
-                                    },
-                                    child: Text('Login'),
-                                    color: Colors.blue,
-                                    textColor: Colors.white,
-                                    shape:  RoundedRectangleBorder(
-                                        borderRadius:
-                                             BorderRadius.circular(30.0))),
-                              ),
+                            ? LoadingIndicator()
+                            : LoginButton(),
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                           child: Column(
