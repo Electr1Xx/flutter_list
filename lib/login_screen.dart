@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'dart:async';
+
+import 'package:flutter_list_app/routes.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,13 +14,6 @@ class FormState extends State {
   bool isLoading = false;
   bool _obscureText = true;
 
-  Container LoadingIndicator() {
-    return Container(
-        padding:
-        EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 12),
-        child: CircularProgressIndicator());
-  }
-
   Container LoginButton() {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -27,31 +23,27 @@ class FormState extends State {
             setState(() {
               isLoading = true;
             });
-            await  Future.delayed(
-                const Duration(seconds: 3), () {
+            await Future.delayed(const Duration(seconds: 3), () {
               setState(() {
                 isLoading = false;
               });
             });
-            Navigator.pushNamedAndRemoveUntil(
-                context, "/home", (Route<dynamic> route) {
+            Navigator.pushNamedAndRemoveUntil(context, Routes.home,
+                (Route<dynamic> route) {
               return false;
             });
           },
           child: Text('Login'),
           color: Colors.blue,
           textColor: Colors.white,
-          shape:  RoundedRectangleBorder(
-              borderRadius:
-              BorderRadius.circular(30.0))),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0))),
     );
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Login')
-        ),
+        appBar: AppBar(title: Text('Login')),
         body: SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
@@ -64,12 +56,12 @@ class FormState extends State {
                           width: 200,
                           height: 200,
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Email',
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20.0),
+                          SizedBox(height: 20.0),
                         TextFormField(
                           decoration: InputDecoration(
                               labelText: 'Password',
@@ -87,7 +79,10 @@ class FormState extends State {
                           obscureText: _obscureText,
                         ),
                         isLoading
-                            ? LoadingIndicator()
+                            ? Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 12),
+                                child: LoadingIndicator())
                             : LoginButton(),
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
