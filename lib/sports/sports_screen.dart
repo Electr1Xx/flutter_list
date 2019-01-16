@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_list_app/common/bottom_bar.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'package:flutter_list_app/routes.dart';
+import 'package:flutter_list_app/sports/sports_item_screen.dart';
 import 'package:http/http.dart' as http;
 
 class SportsScreen extends StatefulWidget {
@@ -67,7 +68,7 @@ class SportsScreenState extends State {
                 itemCount: data == null ? 0 : data.length,
                 itemBuilder: (context, index) {
                   bool last = data.length == (index + 1);
-                  return ListItem(data[index],last);
+                  return ListItem(data[index], last);
                 },
               ),
         bottomNavigationBar: BottomBar(currentIndex));
@@ -75,19 +76,29 @@ class SportsScreenState extends State {
 }
 
 class ListItem extends StatelessWidget {
-  ListItem(this.data,this.last);
+  ListItem(this.data, this.last);
 
   final data, last;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding:last ? EdgeInsets.fromLTRB(0,0,0,0): EdgeInsets.fromLTRB(0,0,0,10),
-      leading: Image.network(
-        data['strSportThumb'],
-        width: 150,
-      ),
-      title: Text(data['strSport']),
-    );
+    return Container(
+        margin: const EdgeInsets.only(top: 5.0),
+        child: new Card(
+          color: Colors.white30,
+          child: ListTile(
+              leading: CircleAvatar(backgroundImage: NetworkImage(
+                data['strSportThumb'],
+              ),radius: 23,),
+              title: Text(data['strSport']),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SportsItemScreen(data),
+                  ),
+                );
+              }),
+        ));
   }
 }

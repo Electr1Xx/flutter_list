@@ -28,7 +28,7 @@ class FormState extends State {
                 isLoading = false;
               });
             });
-            Navigator.pushNamedAndRemoveUntil(context, Routes.home,
+            Navigator.pushNamedAndRemoveUntil(context, Routes.sports,
                 (Route<dynamic> route) {
               return false;
             });
@@ -56,12 +56,12 @@ class FormState extends State {
                           width: 200,
                           height: 200,
                         ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                            ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Email',
                           ),
-                          SizedBox(height: 20.0),
+                        ),
+                        SizedBox(height: 20.0),
                         TextFormField(
                           decoration: InputDecoration(
                               labelText: 'Password',

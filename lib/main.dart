@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_app/account/account_screen.dart';
-import 'package:flutter_list_app/sports_screen.dart';
+import 'package:flutter_list_app/leagues/leagues_screen.dart';
+import 'package:flutter_list_app/sports/sports_screen.dart';
 import 'package:flutter_list_app/login_screen.dart';
 import 'package:flutter_list_app/routes.dart';
 
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.login,
       routes: {
         Routes.login: (BuildContext context) => LoginScreen(),
-        Routes.home: (BuildContext context) => SportsScreen(),
-        Routes.account: (BuildContext context) => AccountScreen()
+        Routes.sports: (BuildContext context) => SportsScreen(),
+        Routes.account: (BuildContext context) => AccountScreen(),
+        Routes.leagues: (BuildContext context) => LeaguesScreen(),
       },
     );
   }

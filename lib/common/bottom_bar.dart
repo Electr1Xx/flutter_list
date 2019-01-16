@@ -36,11 +36,11 @@ class BottomBarState extends State {
   void onTabTapped(index) {
     if (currentIndex != index) {
       index == 0
-          ? Navigator.pushNamedAndRemoveUntil(context, Routes.home,
+          ? Navigator.pushNamedAndRemoveUntil(context, Routes.sports,
               (Route<dynamic> route) {
               return false;
             })
-          : Navigator.pushNamedAndRemoveUntil(context, Routes.home,
+          : Navigator.pushNamedAndRemoveUntil(context, Routes.leagues,
               (Route<dynamic> route) {
               return false;
             });
