@@ -97,14 +97,16 @@ class LeaguesTeamsScreenState extends State {
                       )
                     : Text('No image'),
                 SizedBox(height: 20),
-                Text(
-                  data['strTeam'],
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                  textAlign: TextAlign.center,
-                )
+                Material(
+                    color: Colors.transparent,
+                    child: Text(
+                      data['strTeam'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                      textAlign: TextAlign.center,
+                    ))
               ]),
               decoration: BoxDecoration(
                 color: Colors.blueGrey,
