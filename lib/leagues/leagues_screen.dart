@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_list_app/common/bottom_bar.dart';
+import 'package:flutter_list_app/common/drawer.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'package:flutter_list_app/leagues/leagues_teams_screen.dart';
 import 'package:flutter_list_app/routes.dart';
@@ -34,7 +35,7 @@ class LeaguesScreenState extends State {
         var resSports = json.decode(responseSports.body);
         data = res['leagues'];
         sportsList = resSports['sports'];
-        sportsList[0] = ({'strSport': "All"});
+        sportsList.insert(0,{'strSport': "All"});
       });
       isLoading = false;
 
@@ -48,7 +49,7 @@ class LeaguesScreenState extends State {
 
     this.setState(() {
       countryList = json.decode(response);
-      countryList[0] = ({'name': 'All'});
+      countryList.insert(0,{'name': 'All'});
     });
   }
 
@@ -99,7 +100,7 @@ class LeaguesScreenState extends State {
                                     items: sportsList.map((val) {
                                       return DropdownMenuItem(
                                         value: val['strSport'],
-                                        child: Text(val['strSport']),
+                                        child: val['strSport'] == 'All' ? Text('All sports') : Text(val['strSport']),
                                       );
                                     }).toList(),
                                     value: selectedSport,
@@ -118,7 +119,7 @@ class LeaguesScreenState extends State {
                                     items: countryList.map((val) {
                                       return DropdownMenuItem(
                                         value: val['name'],
-                                        child: Text(val['name']),
+                                        child: val['name'] == 'All' ? Text('All countries') : Text(val['name']),
                                       );
                                     }).toList(),
                                     isExpanded: true,
@@ -150,6 +151,7 @@ class LeaguesScreenState extends State {
                           )),
               ]),
         bottomNavigationBar: BottomBar(currentIndex));
+
   }
 
   Future updateLeagues() async {
