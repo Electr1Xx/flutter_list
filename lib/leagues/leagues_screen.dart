@@ -36,6 +36,8 @@ class LeaguesScreenState extends State {
         sportsList = resSports['sports'];
         sportsList[0] = ({'strSport': "All"});
       });
+      isLoading = false;
+
     } else {
       throw Exception('Failed to load list');
     }
@@ -47,7 +49,6 @@ class LeaguesScreenState extends State {
     this.setState(() {
       countryList = json.decode(response);
       countryList[0] = ({'name': 'All'});
-      isLoading = false;
     });
   }
 
