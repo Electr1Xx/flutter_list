@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:flutter_youtube/flutter_youtube.dart';
 
 
 class LeaguesTeamScreen extends StatefulWidget {
@@ -118,16 +117,12 @@ class LeaguesTeamScreenState extends State {
                       'assets/images/insta.png', team['strInstagram'], 'true'),
                   socialImage(
                       'assets/images/twitter.png', team['strTwitter'], 'true'),
+                  socialImage(
+                      'assets/images/youtube.png', team['strYoutube'], 'true'),
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: new RaisedButton(
-                    child: new Text("Play Video"),
-                    onPressed: playVideo
-                ),
-              ),
+                mainAxisSize: MainAxisSize.min,
+              )
             ],
           ),
         ),
@@ -143,7 +138,7 @@ class LeaguesTeamScreenState extends State {
             onTap: () {
               _launchURLSocial(url, httpNeed);
             }),
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
       );
     } else {
       return Container();
@@ -255,13 +250,5 @@ class LeaguesTeamScreenState extends State {
     if (photo != null && photo != '') {
       imagesTeam.add(NetworkImage(photo));
     }
-  }
-  void playVideo() {
-    FlutterYoutube.playYoutubeVideoByUrl(
-        apiKey: "<API_KEY>",
-        videoUrl: "https://www.youtube.com/watch?v=fhWaJi1Hsfo",
-        autoPlay: true, //default falase
-        fullScreen: true //default false
-    );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_list_app/common/bottom_bar.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'package:flutter_list_app/leagues/leagues_teams_screen.dart';
@@ -16,25 +17,44 @@ class LeaguesScreen extends StatefulWidget {
 class LeaguesScreenState extends State {
   bool isLoading = true;
   int currentIndex = 1;
+  String selectedSport = 'All';
+  String selectedCountry = 'All';
   String url = 'https://www.thesportsdb.com/api/v1/json/1/all_leagues.php';
+  String urlSports = 'https://www.thesportsdb.com/api/v1/json/1/all_sports.php';
   List data;
+  List sportsList;
+  List countryList;
 
   Future<List> getList() async {
     final response = await http.get(url);
-    if (response.statusCode == 200) {
+    final responseSports = await http.get(urlSports);
+    if (response.statusCode == 200 && responseSports.statusCode == 200) {
       setState(() {
         var res = json.decode(response.body);
+        var resSports = json.decode(responseSports.body);
         data = res['leagues'];
-        isLoading = false;
+        sportsList = resSports['sports'];
+        sportsList[0] = ({'strSport': "All"});
       });
     } else {
       throw Exception('Failed to load list');
     }
   }
 
+  Future<List> getCountryList() async {
+    var response = await rootBundle.loadString('assets/countries.json');
+
+    this.setState(() {
+      countryList = json.decode(response);
+      countryList[0] = ({'name': 'All'});
+      isLoading = false;
+    });
+  }
+
   @override
   void initState() {
     this.getList();
+    this.getCountryList();
   }
 
   @override
@@ -65,14 +85,106 @@ class LeaguesScreenState extends State {
         ),
         body: isLoading
             ? LoadingIndicator()
-            : ListView.builder(
-                itemCount: data == null ? 0 : data.length,
-                itemBuilder: (context, index) {
-                  bool last = data.length == (index + 1);
-                  return ListItem(data[index], last);
-                },
-              ),
+            : Column(children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    sportsList != null && countryList != null
+                        ? Column(children: <Widget>[
+                            Container(
+                                width: 350.0,
+                                height: 50,
+                                child: DropdownButton(
+                                    items: sportsList.map((val) {
+                                      return DropdownMenuItem(
+                                        value: val['strSport'],
+                                        child: Text(val['strSport']),
+                                      );
+                                    }).toList(),
+                                    value: selectedSport,
+                                    hint: Text("Sport"),
+                                    isExpanded: true,
+                                    onChanged: (newVal) {
+                                      this.setState(() {
+                                        selectedSport = newVal;
+                                        this.updateLeagues();
+                                      });
+                                    })),
+                            Container(
+                                width: 350.0,
+                                height: 50,
+                                child: DropdownButton(
+                                    items: countryList.map((val) {
+                                      return DropdownMenuItem(
+                                        value: val['name'],
+                                        child: Text(val['name']),
+                                      );
+                                    }).toList(),
+                                    isExpanded: true,
+                                    value: selectedCountry,
+                                    hint: Text("Country"),
+                                    onChanged: (newVal) {
+                                      this.setState(() {
+                                        selectedCountry = newVal;
+                                        this.updateLeagues();
+                                      });
+                                    }))
+                          ])
+                        : LoadingIndicator(),
+                  ],
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+                Flexible(
+                    child: data == null
+                        ? Center(
+                            child: Text("No leagues"),
+                          )
+                        : ListView.builder(
+                            itemCount: data == null ? 0 : data.length,
+                            itemBuilder: (context, index) {
+                              bool last = data.length == (index + 1);
+                              return ListItem(data[index], last);
+                            },
+                          )),
+              ]),
         bottomNavigationBar: BottomBar(currentIndex));
+  }
+
+  Future updateLeagues() async {
+    String urlCountry =
+        'https://www.thesportsdb.com/api/v1/json/1/search_all_leagues.php?c=$selectedCountry';
+    String urlSport =
+        'https://www.thesportsdb.com/api/v1/json/1/search_all_leagues.php?s=$selectedSport';
+    String urlCountryAndSport =
+        'https://www.thesportsdb.com/api/v1/json/1/search_all_leagues.php?c=$selectedCountry&s=$selectedSport';
+    var response;
+    var key;
+    isLoading = true;
+
+    if (selectedSport == 'All' && selectedCountry == 'All') {
+      response = await http.get(url);
+      key = 'leagues';
+    } else {
+      if (selectedSport != 'All' && selectedCountry != 'All') {
+        response = await http.get(urlCountryAndSport);
+      } else if (selectedSport != 'All' && selectedCountry == 'All') {
+        response = await http.get(urlSport);
+      } else {
+        response = await http.get(urlCountry);
+      }
+      key = 'countrys';
+    }
+
+    if (response.statusCode == 200) {
+      setState(() {
+        var res = json.decode(response.body);
+        data = res[key];
+        isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load list');
+    }
   }
 }
 

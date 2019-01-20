@@ -17,18 +17,17 @@ class AccountScreenState extends State {
   List data;
   String selected;
 
-  Future getJsonData() async {
+  Future getCountryList() async {
     var response = await rootBundle.loadString('assets/countries.json');
 
     this.setState(() {
-      var convertDataToJson = json.decode(response);
-      data = convertDataToJson;
+      data = json.decode(response);
     });
   }
 
   @override
   void initState() {
-    this.getJsonData();
+    this.getCountryList();
   }
 
   @override
