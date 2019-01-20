@@ -78,10 +78,8 @@ class LeaguesScreenState extends State {
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                      context, Routes.account, (Route<dynamic> route) {
-                    return false;
-                  }),
+              onPressed: () => Navigator.pushNamed(
+                      context, Routes.account),
             )
           ],
         ),

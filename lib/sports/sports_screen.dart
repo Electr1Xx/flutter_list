@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_list_app/common/bottom_bar.dart';
+import 'package:flutter_list_app/common/drawer.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'package:flutter_list_app/routes.dart';
 import 'package:flutter_list_app/sports/sports_item_screen.dart';
@@ -55,10 +56,8 @@ class SportsScreenState extends State {
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                      context, Routes.account, (Route<dynamic> route) {
-                    return false;
-                  }),
+              onPressed: () => Navigator.pushNamed(
+                      context, Routes.account),
             )
           ],
         ),
@@ -71,7 +70,8 @@ class SportsScreenState extends State {
                   return ListItem(data[index], last);
                 },
               ),
-        bottomNavigationBar: BottomBar(currentIndex));
+        bottomNavigationBar: BottomBar(currentIndex),
+       );
   }
 }
 

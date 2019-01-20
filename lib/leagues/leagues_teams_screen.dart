@@ -52,7 +52,8 @@ class LeaguesTeamsScreenState extends State {
         appBar: AppBar(
           title: Text('Teams'),
         ),
-        body: isLoading ? LoadingIndicator() : _buildCarousel());
+        body: isLoading ? LoadingIndicator() : _buildCarousel(),
+    );
   }
 
   Widget _buildCarousel() {
