@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:flutter_list_app/account/avatar_upload.dart';
-import 'package:flutter_list_app/common/bottom_bar.dart';
-import 'package:flutter_list_app/common/drawer.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'package:flutter_list_app/routes.dart';
 
@@ -80,7 +78,7 @@ class AccountScreenState extends State {
                     child: RaisedButton(
                         onPressed: () async {
                           Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.sports, (Route<dynamic> route) {
+                              context, Routes.home, (Route<dynamic> route) {
                             return false;
                           });
                         },

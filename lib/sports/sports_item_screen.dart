@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_list_app/common/drawer.dart';
 
 class SportsItemScreen extends StatelessWidget {
   SportsItemScreen(this.sport);

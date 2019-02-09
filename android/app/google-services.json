@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "743343839788",
+    "firebase_url": "https://flutter-list-229219.firebaseio.com",
+    "project_id": "flutter-list-229219",
+    "storage_bucket": "flutter-list-229219.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743343839788:android:af5f13107fddac9d",
+        "android_client_info": {
+          "package_name": "com.electr1xx.flutterlistapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743343839788-5m7n78kl9st53l4s5pt08r2jdh4pquj0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABpl7oHutU7NeSOa1F3zIHfGI6HI0ON-I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

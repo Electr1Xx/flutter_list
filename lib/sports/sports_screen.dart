@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_list_app/common/bottom_bar.dart';
-import 'package:flutter_list_app/common/drawer.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
-import 'package:flutter_list_app/routes.dart';
 import 'package:flutter_list_app/sports/sports_item_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +12,6 @@ class SportsScreen extends StatefulWidget {
 
 class SportsScreenState extends State {
   bool isLoading = true;
-  int currentIndex = 0;
   String url = 'https://www.thesportsdb.com/api/v1/json/1/all_sports.php';
   List data;
 
@@ -39,29 +35,7 @@ class SportsScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Sports'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                      context, Routes.login, (Route<dynamic> route) {
-                    return false;
-                  }),
-            ),
-            IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () => Navigator.pushNamed(
-                      context, Routes.account),
-            )
-          ],
-        ),
-        body: isLoading
+    return isLoading
             ? LoadingIndicator()
             : ListView.builder(
                 itemCount: data == null ? 0 : data.length,
@@ -69,9 +43,7 @@ class SportsScreenState extends State {
                   bool last = data.length == (index + 1);
                   return ListItem(data[index], last);
                 },
-              ),
-        bottomNavigationBar: BottomBar(currentIndex),
-       );
+              );
   }
 }
 

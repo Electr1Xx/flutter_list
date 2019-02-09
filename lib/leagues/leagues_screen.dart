@@ -2,12 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_list_app/common/bottom_bar.dart';
-import 'package:flutter_list_app/common/drawer.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'package:flutter_list_app/leagues/leagues_teams_screen.dart';
-import 'package:flutter_list_app/routes.dart';
-import 'package:flutter_list_app/sports/sports_item_screen.dart';
 import 'package:http/http.dart' as http;
 
 class LeaguesScreen extends StatefulWidget {
@@ -17,7 +13,6 @@ class LeaguesScreen extends StatefulWidget {
 
 class LeaguesScreenState extends State {
   bool isLoading = true;
-  int currentIndex = 1;
   String selectedSport = 'All';
   String selectedCountry = 'All';
   String url = 'https://www.thesportsdb.com/api/v1/json/1/all_leagues.php';
@@ -61,29 +56,7 @@ class LeaguesScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Leagues'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                      context, Routes.login, (Route<dynamic> route) {
-                    return false;
-                  }),
-            ),
-            IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () => Navigator.pushNamed(
-                      context, Routes.account),
-            )
-          ],
-        ),
-        body: isLoading
+    return  isLoading
             ? LoadingIndicator()
             : Column(children: <Widget>[
                 Row(
@@ -147,9 +120,7 @@ class LeaguesScreenState extends State {
                               return ListItem(data[index], last);
                             },
                           )),
-              ]),
-        bottomNavigationBar: BottomBar(currentIndex));
-
+              ]);
   }
 
   Future updateLeagues() async {

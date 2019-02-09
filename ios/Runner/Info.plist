@@ -13,7 +13,7 @@
 	<key>CFBundleName</key>
 	<string>flutter_list_app</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>APPL</string>z
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
@@ -41,5 +41,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+    <string>YES</string>
 </dict>
 </plist>

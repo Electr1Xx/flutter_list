@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_list_app/common/bottom_bar.dart';
 import 'package:flutter_list_app/common/loading_indicator.dart';
 import 'package:flutter_list_app/leagues/leagues_team_screen.dart';
-import 'package:flutter_list_app/routes.dart';
 import 'package:http/http.dart' as http;
 
 class LeaguesTeamsScreen extends StatefulWidget {
