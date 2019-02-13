@@ -29,25 +29,11 @@ class LoginScreenState extends State<LoginScreen> {
 
 
   Container LoginButton() {
-      return Container(
+    return Container(
       padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
       width: 200,
       child: RaisedButton(
           onPressed: _validateAndSubmit,
-          /*onPressed: () async {
-            setState(() {
-              isLoading = true;
-            });
-            await Future.delayed(const Duration(seconds: 3), () {
-              setState(() {
-                isLoading = false;
-              });
-            });
-            Navigator.pushNamedAndRemoveUntil(context, Routes.home,
-                (Route<dynamic> route) {
-              return false;
-            });
-          },*/
           child: _formMode == FormMode.LOGIN
               ?  Text('Login')
               :  Text('Create account'),
@@ -60,7 +46,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Login')),
+        appBar: AppBar(title: _formMode == FormMode.LOGIN ? Text('Login'): Text('SinUp')),
         body: SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
@@ -121,35 +107,54 @@ class LoginScreenState extends State<LoginScreen> {
                         ),
                         isLoading
                             ? Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 12),
-                                child: LoadingIndicator())
+                            padding:
+                            EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 12),
+                            child: LoadingIndicator())
                             : LoginButton(),
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Column(
                             children: <Widget>[
+                              _formMode == FormMode.LOGIN ?
                               Container(
-                                child: RaisedButton(
-                                  child: Text('Login with Google'),
-                                  elevation: 4.0,
-                                  splashColor: Colors.blueGrey,
-                                  onPressed: signInGoogle,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Sign in with Google'),
+                                      elevation: 4.0,
+                                      color: Colors.white,
+                                      textColor: Colors.black54,
+                                      splashColor: Colors.white12,
+                                      onPressed: signInGoogle,
+                                    ),
+                                    RaisedButton(
+                                      child: Text('Sign in with Facebook'),
+                                      elevation: 4.0,
+                                      color: Color.fromRGBO(59, 89, 152, 1),
+                                      textColor: Colors.white,
+                                      splashColor: Color.fromRGBO(59, 89, 152, 1),
+                                      onPressed: signInFacebook,
+                                    ),
+                                  ],
                                 ),
-                              ),
+                              )
+                              : SizedBox(height: 0,),
                               Container(
                                   height: 35,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text("Don't have an account?"),
+                                      _formMode == FormMode.LOGIN
+                                          ? Text("Don't have an account?")
+                                          : Text('Have an account?'),
                                       Padding(
                                           padding:
-                                              EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                          EdgeInsets.fromLTRB(10, 0, 0, 0),
                                           child: FlatButton(
                                             child: _formMode == FormMode.LOGIN
                                                 ?  Text('Create an account')
-                                                :  Text('Have an account? Sign in'),
+                                                :  Text('Sign in'),
                                             textColor: Colors.blue,
                                             onPressed: _formMode == FormMode.LOGIN
                                                 ? _changeFormToSignUp
@@ -234,11 +239,19 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   signInGoogle() async {
-   var userId = await widget.auth.signInWithGoogle();
+    var userId = await widget.auth.signInWithGoogle();
 
-   if (userId != null) {
-     widget.onSignedIn('google');
-   }
+    if (userId != null) {
+      widget.onSignedIn('google');
+    }
+  }
+
+  signInFacebook() async {
+    var userId = await widget.auth.signInWithFacebook();
+
+    if (userId != null) {
+      widget.onSignedIn('facebook');
+    }
   }
 
   bool _validateAndSave() {

@@ -23,12 +23,13 @@ class HomeScreenState extends State<HomePage> {
   int currentIndex = 0;
 
   List routes = [SportsScreen(),LeaguesScreen()];
+  List routesName = ['Sports', 'Leagues'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Leagues'),
+          title: Text(routesName[currentIndex]),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.share),

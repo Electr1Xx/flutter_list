@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
-
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BaseAuth {
@@ -12,6 +12,8 @@ abstract class BaseAuth {
   Future<FirebaseUser> getCurrentUser();
 
   Future<String> signInWithGoogle();
+
+  Future<String> signInWithFacebook();
 
   Future<void> signOut();
 }
@@ -50,6 +52,24 @@ class Auth implements BaseAuth {
     }
   }
 
+  Future<String> signInWithFacebook() async {
+    final facebookLogin = FacebookLogin();
+    final FacebookLoginResult result = await facebookLogin.logInWithReadPermissions(['email']);
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        FirebaseUser user = await _firebaseAuth.signInWithFacebook(
+            accessToken: result.accessToken.token);
+        return user.uid;
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        return null;
+        break;
+      case FacebookLoginStatus.error:
+        return null;
+        break;
+    }
+  }
+
   Future<void> signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String signInFrom = prefs.getString("SignInFrom");
@@ -59,6 +79,10 @@ class Auth implements BaseAuth {
         break;
       case 'google':
         await GoogleSignIn().signOut();
+        return _firebaseAuth.signOut();
+        break;
+      case 'facebook':
+        await FacebookLogin().logOut();
         return _firebaseAuth.signOut();
         break;
     }
