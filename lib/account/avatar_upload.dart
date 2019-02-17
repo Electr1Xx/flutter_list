@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AvatarUpload extends StatefulWidget {
+  AvatarUpload({Key key, this.photoUrl, this.uploadFile}) : super(key: key);
+  final String photoUrl;
+  final Function uploadFile;
+
   @override
   State<StatefulWidget> createState() => AvatarUploadState();
 }
 
-class AvatarUploadState extends State {
+class AvatarUploadState extends State<AvatarUpload> {
   File _image;
 
   @override
@@ -17,11 +21,14 @@ class AvatarUploadState extends State {
         child: Center(
       child: IconButton(
           iconSize: 150,
-          icon: _image == null
+          icon: widget.photoUrl == ''
               ? Icon(Icons.account_circle, color: Colors.blue)
               : CircleAvatar(
-                  backgroundImage: AssetImage(_image.path),
+                  backgroundImage: widget.photoUrl != '' && _image == null
+                      ? NetworkImage(widget.photoUrl)
+                      : AssetImage(_image.path),
                   radius: 150,
+                  backgroundColor: Colors.transparent,
                 ),
           onPressed: uploadAvatarDialog),
     ));
@@ -47,10 +54,10 @@ class AvatarUploadState extends State {
                   Navigator.of(context).pop();
                   var image =
                       await ImagePicker.pickImage(source: ImageSource.camera);
-
                   setState(() {
                     _image = image;
                   });
+                  widget.uploadFile(image);
                 },
               ),
               FlatButton(
@@ -59,10 +66,10 @@ class AvatarUploadState extends State {
                   Navigator.of(context).pop();
                   var image =
                       await ImagePicker.pickImage(source: ImageSource.gallery);
-
                   setState(() {
                     _image = image;
                   });
+                  widget.uploadFile(image);
                 },
               ),
             ],

@@ -46,7 +46,7 @@ class HomeScreenState extends State<HomePage> {
           ],
         ),
         body: routes[currentIndex],
-        drawer: DrawerWidget(onSignedOutDrawer: logout,),
+        drawer: DrawerWidget(onSignedOutDrawer: logout),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: onTabTapped,
